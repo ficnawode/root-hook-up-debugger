@@ -10,7 +10,7 @@ PRIVATE
 
 target_sources(${NAME}
 PRIVATE
-    src/tof.C
+    tof.C
 )
 
 target_include_directories(${NAME}

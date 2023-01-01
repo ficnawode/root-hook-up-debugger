@@ -10,4 +10,4 @@ include(cmake/find_packages.cmake)
 enable_testing()
 include(GoogleTest)
 
-add_subdirectory(exec)
+add_subdirectory(src)

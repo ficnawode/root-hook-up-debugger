@@ -93,4 +93,12 @@
     "editor.formatOnSave": true,
     "clang-format.executable": "clang-format",
     "clang-format.language.cpp.enable": true,
+    "C_Cpp.files.exclude": {
+        "macro/**": true,
+        "**/.vscode": true,
+        "**/.vs": true
+    },
+    "files.watcherExclude": {
+        "macro/**": true,
+    },
 }

@@ -1,9 +1,6 @@
 
 void momentum()
 {
-    // TString fileName = "1.analysistree.root";
-    // TFile* fileIn = TFile::Open(fileName, "read");
-    // TTree* treeIn = fileIn->Get<TTree>("rTree");
     AnalysisTree::Chain* treeIn = new AnalysisTree::Chain(
         std::vector<std::string>({"filelist.txt"}), std::vector<std::string>({"rTree"}));
 
@@ -13,8 +10,6 @@ void momentum()
     auto* vtx_tracks = new AnalysisTree::TrackDetector();
     auto* sim_vtx_matching = new AnalysisTree::Matching();
 
-    // AnalysisTree::Configuration* config = fileIn->Get<AnalysisTree::Configuration>("Configuration");
-    // treeIn->GetConfiguration() instead of congif
     const int sp = treeIn->GetConfiguration()->GetBranchConfig("SimParticles").GetFieldId("p"); // simulated
     const int spT = treeIn->GetConfiguration()->GetBranchConfig("SimParticles").GetFieldId("pT");
     const int seta = treeIn->GetConfiguration()->GetBranchConfig("SimParticles").GetFieldId("eta");
@@ -39,7 +34,7 @@ void momentum()
     const int Nevents = treeIn->GetEntries();
 
     // zadania
-    TFile* fileOut1 = TFile::Open("out/momentum.root", "recreate");
+    TFile* fileOut1 = TFile::Open("../out/momentum.root", "recreate");
     TH1F hspx("hspx", "sim px;px [GeV/c];dN/dpx", 1000, -3, 3); // simulated
     TH1F hspy("hspy", "sim py;py [GeV/c];dN/dpy", 1000, -3, 3);
     TH1F hspz("hspz", "sim pz;pz [GeV/c];dN/dpz", 1000, 0, 6);
@@ -58,7 +53,6 @@ void momentum()
     TH1F hrp("hrp", "rec p", 1000, 0, 6);
     TH1F hrpt("hrpt", "rec pz", 1000, 0, 6);
     TH1F hreta("hreta", "rec eta", 1000, 0, 6);
-    //  TH1F hrrap("hrrap", "rec rapidity", 1000, -3, 3);
     TH2F hcpx("hcpx", "cor px", 1000, -3, 3, 1000, -3, 3); // correlation
     TH2F hcpy("hcpy", "cor py", 1000, -3, 3, 1000, -3, 3);
     TH2F hcpz("hcpz", "cor pz", 1000, 0, 6, 1000, 0, 6);
@@ -159,7 +153,6 @@ void momentum()
     hrpt.Write();
     hreta.Write();
     hrphi.Write();
-    // hrrap.Write();
     hcpx.GetXaxis()->SetTitle("reconstructed");
     hcpx.GetYaxis()->SetTitle("simulated");
     hcpx.Write();

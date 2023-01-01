@@ -1,8 +1,5 @@
 void event()
 {
-    // TString fileName = "1.analysistree.root";
-    // TFile* fileIn = TFile::Open(fileName, "read");
-    // TTree* treeIn = fileIn->Get<TTree>("rTree");
     AnalysisTree::Chain* treeIn = new AnalysisTree::Chain(
         std::vector<std::string>({"filelist.txt"}), std::vector<std::string>({"rTree"}));
 
@@ -12,15 +9,17 @@ void event()
     auto* vtx_tracks = new AnalysisTree::TrackDetector();
     auto* sim_vtx_matching = new AnalysisTree::Matching();
 
-    AnalysisTree::Configuration* config = treeIn->GetConfiguration(); // fileIn->Get<AnalysisTree::Configuration>("Configuration");
+    AnalysisTree::Configuration* config = treeIn->GetConfiguration();
     const int sx = config->GetBranchConfig("SimEventHeader").GetFieldId("vtx_x"); // simulated
     const int sy = config->GetBranchConfig("SimEventHeader").GetFieldId("vtx_y");
     const int sz = config->GetBranchConfig("SimEventHeader").GetFieldId("vtx_z");
     const int spsi = config->GetBranchConfig("SimEventHeader").GetFieldId("psi_RP");
+
     const int rx = config->GetBranchConfig("RecEventHeader").GetFieldId("vtx_x"); // reconstructed
     const int ry = config->GetBranchConfig("RecEventHeader").GetFieldId("vtx_y");
     const int rz = config->GetBranchConfig("RecEventHeader").GetFieldId("vtx_z");
     const int rchi2 = config->GetBranchConfig("RecEventHeader").GetFieldId("vtx_chi2");
+
     const int rEpsd = config->GetBranchConfig("RecEventHeader").GetFieldId("Epsd");
     const int sb = config->GetBranchConfig("SimEventHeader").GetFieldId("b");
     const int rm = config->GetBranchConfig("RecEventHeader").GetFieldId("M");
@@ -35,13 +34,12 @@ void event()
 
     const int Nevents = treeIn->GetEntries();
 
-    // zadania
-    TFile* fileOut1 = TFile::Open("out/event.root", "recreate");
-    TH1F hsx("hsx", "simulated x; x [cm]; dN/dx", 1000, -3, 3); // simulatedulated
+    TFile* fileOut1 = TFile::Open("../out/event.root", "recreate");
+    TH1F hsx("hsx", "simulated x; x [cm]; dN/dx", 1000, -3, 3); // simulated
     TH1F hsy("hsy", "simulated y; y [cm]; dN/dy", 1000, -3, 3);
     TH1F hsz("hsz", "simulated z; z [cm]; dN/dz", 1000, -3, 3);
     TH1F hspsi("hspsi", "simulated #psi; #psi [rad]; dN/dx", 100, -6.5, 6.5);
-    TH1F hrx("hrx", "reconstructed x; x [cm]; dN/dx", 1000, -3, 3); // reconstructedonstructed
+    TH1F hrx("hrx", "reconstructed x; x [cm]; dN/dx", 1000, -3, 3); // reconstructed
     TH1F hry("hry", "reconstructed y; x [cm]; dN/dy", 1000, -3, 3);
     TH1F hrz("hrz", "reconstructed z; x [cm]; dN/dz", 1000, -3, 3);
     TH1F hrchi2("hrchi2", "reconstructed #{chi^2}/NDF; #{chi^2/NDF}; counts", 100, 0, 3);
@@ -61,29 +59,40 @@ void event()
         treeIn->GetEntry(i);
         const float sim_x = eve_header->GetField<float>(sx); // simulated
         hsx.Fill(sim_x);
+
         const float sim_y = eve_header->GetField<float>(sy);
         hsy.Fill(sim_y);
+
         const float sim_z = eve_header->GetField<float>(sz);
         hsz.Fill(sim_z);
+
         const float sim_psi = eve_header->GetField<float>(spsi);
         hspsi.Fill(sim_psi);
+
         const float rec_x = rec_header->GetField<float>(rx); // reconstructed
         const float rec_y = rec_header->GetField<float>(ry);
         const float rec_z = rec_header->GetField<float>(rz);
         hrx.Fill(rec_x);
         hry.Fill(rec_y);
         hrz.Fill(rec_z);
+
         hrchi2.Fill(rec_header->GetField<float>(rchi2));
+
         const float rec_epsd = rec_header->GetField<float>(rEpsd);
         hEpsd.Fill(rec_epsd);
+
         const float rec_m = rec_header->GetField<float>(rm);
         hm.Fill(rec_m);
+
         const float sim_b = eve_header->GetField<float>(sb);
         hb.Fill(sim_b);
-        hcbm.Fill(sim_b, rec_m);
+
+        hcbm.Fill(sim_b, rec_m); // mass
+
         hcx.Fill(sim_x, rec_x); // correlations
         hcy.Fill(sim_y, rec_y);
         hcz.Fill(sim_z, rec_z);
+
         hdx.Fill(sim_x - rec_x); // difference
         hdy.Fill(sim_y - rec_y);
         hdz.Fill(sim_z - rec_z);
