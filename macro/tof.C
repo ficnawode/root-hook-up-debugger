@@ -19,7 +19,6 @@ void tof()
     treeIn->SetBranchAddress("VtxTracks.", &vtx_tracks);
     treeIn->SetBranchAddress("RecEventHeader.", &rec_header);
     treeIn->SetBranchAddress("TofHits.", &tof_hits);
-    treeIn->SetBranchAddress("VtxTracks2SimParticles.", &sim_vtx_matching);
 
     int N = 0;
     const int Nevents = treeIn->GetEntries();

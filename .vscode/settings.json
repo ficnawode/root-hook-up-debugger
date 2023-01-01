@@ -83,9 +83,7 @@
         "memory_resource": "cpp",
         "numeric": "cpp",
         "string_view": "cpp",
-        "tof.C": "cpp",
-        "event.C": "cpp",
-        "momentum.C": "cpp"
+        "*.C": "cpp",
     },
     "editor.codeActionsOnSave": {
         "source.fixAll": true
@@ -97,8 +95,5 @@
         "macro/**": true,
         "**/.vscode": true,
         "**/.vs": true
-    },
-    "files.watcherExclude": {
-        "macro/**": true,
     },
 }
