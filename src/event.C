@@ -3,7 +3,7 @@ void event(){
   //TString fileName = "1.analysistree.root";
   //TFile* fileIn = TFile::Open(fileName, "read");
   //TTree* treeIn = fileIn->Get<TTree>("rTree");
-  AnalysisTree::Chain* treeIn = new AnalysisTree::Chain(std::vector<std::string>({"fileslist.txt"}), std::vector<std::string>({"rTree"}));
+  AnalysisTree::Chain* treeIn = new AnalysisTree::Chain(std::vector<std::string>({"filelist.txt"}), std::vector<std::string>({"rTree"}));
 
   auto* eve_header = new AnalysisTree::EventHeader();
   auto* rec_header = new AnalysisTree::EventHeader();
@@ -24,18 +24,18 @@ void event(){
   const int sb = config->GetBranchConfig("SimEventHeader").GetFieldId("b");
   const int rm = config->GetBranchConfig("RecEventHeader").GetFieldId("M");
 
-  treeIn->SetBranchAddress("SimEventHeader", &eve_header);
-  treeIn->SetBranchAddress("SimParticles", &sim_tracks);
-  treeIn->SetBranchAddress("VtxTracks", &vtx_tracks);
-  treeIn->SetBranchAddress("RecEventHeader", &rec_header);
-  treeIn->SetBranchAddress(config->GetMatchName("VtxTracks", "SimParticles").c_str(), &sim_vtx_matching);
+  treeIn->SetBranchAddress("SimEventHeader.", &eve_header);
+  treeIn->SetBranchAddress("SimParticles.", &sim_tracks);
+  treeIn->SetBranchAddress("VtxTracks.", &vtx_tracks);
+  treeIn->SetBranchAddress("RecEventHeader.", &rec_header);
+  treeIn->SetBranchAddress("VtxTracks2SimParticles.", &sim_vtx_matching);
 
   int N = 0;
 
   const int Nevents = treeIn->GetEntries();
 
   //zadania
-  TFile* fileOut1 = TFile::Open("event.root", "recreate");
+  TFile* fileOut1 = TFile::Open("out/event.root", "recreate");
   TH1F hsx("hsx", "simulated x; x [cm]; dN/dx", 1000, -3, 3); //simulatedulated
   TH1F hsy("hsy", "simulated y; y [cm]; dN/dy", 1000, -3, 3);
   TH1F hsz("hsz", "simulated z; z [cm]; dN/dz", 1000, -3, 3);
