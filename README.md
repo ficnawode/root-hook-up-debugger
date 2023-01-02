@@ -31,5 +31,10 @@ root <name-of-macro>
 ```
 The macro will generate a .root file in the out directory.
 
+Input files obtained via
+
+```
+scp -r virgo-debian10.hpc:/lustre/cbm/users/lubynets/cbm2atree/outputs/apr20_fr_18.2.1_fs_jun19p1/dcmqgsm_smm_pluto/auau/3.3agev/mbias/sis100_electron_target_25_mkm_psd_v18e_p3.3_56/AT2/*.analysistree.root .
+```
 
 Heavily based on macros by Julian Nowak at https://github.com/julnow/cbm_remote/tree/master/atree
